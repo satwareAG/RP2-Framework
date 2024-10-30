@@ -1,0 +1,82 @@
+{
+  "name": "satag/rp2-framework",
+  "description": "Framework for RP2 management and operations.",
+  "version": "dev-main",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Michael Wegener",
+      "email": "mw@satware.com",
+      "role": "maintainer"
+    },
+    {
+      "name": "Andreas Döbeling",
+      "email": "ad@1601.com",
+      "homepage": "https://github.com/ADoebeling",
+      "role": "original author"
+    },
+    {
+      "name": "Christian Methfessel",
+      "email": "Xendiadyon@users.noreply.github.com",
+      "role": "contributor"
+    },
+    {
+      "name": "Lukas Beck",
+      "email": "lb@1601.com",
+      "role": "contributor"
+    },
+    {
+      "name": "Michael Boehm",
+      "email": "support@df.eu",
+      "homepage": "https://www.df.eu",
+      "role": "original author"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/satag/rp2-framework/issues",
+    "source": "https://github.com/satag/rp2-framework"
+  },
+  "require": {
+  },
+  "require-dev": {
+    "rector/rector": "^0.15",
+    "squizlabs/php_codesniffer": "^3.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Satag\\RP2Framework\\": "src/"
+    }
+  },
+  "scripts": {
+    "fix-cs": "phpcbf",
+    "check-cs": "phpcs",
+    "rector": "rector process"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "extra": {
+    "license_transition": "The project is in transition to an MIT license pending contributor permissions.",
+    "credits": [
+      {
+        "author": "Andreas Döbeling",
+        "company": "1601.communication gmbh",
+        "homepage": "https://www.1601.com",
+        "license": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      {
+        "author": "Michael Boehm",
+        "company": "domainfactory GmbH",
+        "homepage": "https://www.df.eu",
+        "generated": "2013-04-10",
+        "updated": "2015-04-21",
+        "requirements": {
+          "php": ">=5.3",
+          "mod": "curl"
+        }
+      }
+    ]
+  }
+}
