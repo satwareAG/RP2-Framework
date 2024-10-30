@@ -96,6 +96,16 @@ $rpf
 * You can access all api-Methodes with `$rpf->getApi()`, e. g. `$rpf->getApi()->getDomainEntry` which represents all api-methodes of `bbDomain::readEntry`
 * You can access all extensions with `$rpf->getExtension()`, e. g. `$rpf->getExtension()->getDomainExport`
 
+# dF RP² Mail/PasswordSniffer
+
+This script is a man-in-the-middle attack against your own RP²-installation.
+It allows to sniff all entered email passwords and store them into a database and send mail notifications.
+
+IMPORTANT: Don't use this script, dF doesn't recommend to use this script.
+Don't use this script if not everybody is informed about storing passwords as plain text.
+Don't install this script if you don't know exactly what you're doing.
+
+Thanks.
 
 ### Namespaces = File-structure
 
@@ -120,3 +130,8 @@ If you need paid support contact me on support@1601.com or give me a call: `+49 
 Author: [Andreas Döbeling](http://xing.doebeling.de)  
 Copyright: [1601.production siegler&thümmler ohg](http://www.1601.com/hosting/)  
 License: [cc-by-sa](https://creativecommons.org/licenses/by-sa/3.0)
+---
+
+Andreas Doebeling <ad@1601.com>  
+[1601.communication gmbh](https://www.1601.com)   
+https://github.com/ADoebeling
