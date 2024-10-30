@@ -7,13 +7,18 @@
  * @license cc-by-sa - http://creativecommons.org/licenses/by-sa/4.0/
  * @link http://xing.doebeling.de
  * @link https://github.com/ADoebeling
- * @version 0.1.151208_dev_1ad
  */
 
-require_once '../../../class/extension/extension.php';
 
-$e = new \rpf\extension\extension();
-$e -> httpAuth();
+require_once __DIR__ . '/../../bootstrap.php';
+
+$rpf = new \rpf\system\rpf();
+
+$rpf
+    ->getApi()
+    ->getUser()
+    ->httpAuth();
+
 
 $ajax = isset($_REQUEST['ajax']) ? true : false;
 $method = isset($_REQUEST['method']) ? (string) $_REQUEST['method'] : false;
@@ -27,12 +32,12 @@ if ($ajax && $method == 'getInvoiceBoxHtml' && $ordNr)
     // Invoice-Address
     $text .= "<h3>Offer/Invoice for $ordNr</h3>";
     $text .= "<textarea readonly>";
-    $text .= $e->invoiceTextExport->getAddress($ordNr)['invoiceAddressBlock'];
+    $text .= $rpf->getExtension()->getInvoiceTextExport()->getAddress($ordNr)['invoiceAddressBlock'];
     $text .= "</textarea>\n\n";
     $text .= "<br>\n";
 
     // Tariff
-    $data = $e->invoiceTextExport->getTariff($ordNr);
+    $data = $rpf->getExtension()->getInvoiceTextExport()->getTariff($ordNr);
     $text .= "<article class=\"2column\">";
     $text .= "<h3>{$data['name']} <span class=\"price\">({$data['priceFormatted']})</span></h3>\n";
     $text .= "<textarea readonly>";
@@ -42,7 +47,7 @@ if ($ajax && $method == 'getInvoiceBoxHtml' && $ordNr)
 
 
     // Domains
-    $data = $e->invoiceTextExport->getDomains($ordNr);
+    $data = $rpf->getExtension()->getInvoiceTextExport()->getDomains($ordNr);
     $text .= "<article class=\"2column\">";
     $text .= "<h3>{$data['title']} <span class=\"price\">({$data['priceFormatted']})</span></h3>\n";
     $text .= "<textarea readonly>";
@@ -55,7 +60,7 @@ if ($ajax && $method == 'getInvoiceBoxHtml' && $ordNr)
     $text .= "</article>";
 
     // SSL-Certificates
-    $data = $e->invoiceTextExport->getCertificates($ordNr);
+    $data = $rpf->getExtension()->getInvoiceTextExport()->getCertificates($ordNr);
 
     foreach ($data as $type)
     {
@@ -74,7 +79,7 @@ if ($ajax && $method == 'getInvoiceBoxHtml' && $ordNr)
 
 
     // Exchange-Accounts
-    $data = $e->invoiceTextExport->getExchangeAccounts($ordNr);
+    $data = $rpf->getExtension()->getInvoiceTextExport()->getExchangeAccounts($ordNr);
 
     foreach ($data as $type)
     {
@@ -93,7 +98,7 @@ if ($ajax && $method == 'getInvoiceBoxHtml' && $ordNr)
 
 
     // AddOns
-    foreach ($e->invoiceTextExport->getAddOns($ordNr)['item'] as $row)
+    foreach ($rpf->getExtension()->getInvoiceTextExport()->getAddOns($ordNr)['item'] as $row)
     {
         $text .= "<article class=\"2column\">";
         $text .= "<h3>{$row['title']}<span class=\"price\">({$row['priceFormatted']})</span></h3>\n";
@@ -222,7 +227,7 @@ else
 
 ";
     $lastCustomer = NULL;
-    foreach ($e->invoiceTextExport->getAllOrders() as $ordNr => $row)
+    foreach ($rpf->getExtension()->getInvoiceTextExport()->getAllOrders() as $ordNr => $row)
     {
         $customerDisplayName = $row['customerDisplayName'] == $lastCustomer ? '': $row['customerDisplayName'];
         $lastCustomer = $row['customerDisplayName'];

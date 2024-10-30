@@ -1,10 +1,13 @@
 <?php
 
 namespace rpf\extension;
-use rpf\extension\module\domainExport;
-use rpf\extension\module\mysqlExport;
+use rpf\extension\module\csvExportDomain;
+use rpf\extension\module\csvExportMail4MailSaveEntry;
+use rpf\extension\module\csvExportMysql;
+use rpf\extension\module\csvExportQuota;
 use rpf\extension\module\error;
 use rpf\extension\module\index;
+use rpf\extension\module\invoiceTextExport;
 use rpf\extension\module\mgntRatioExport;
 use rpf\system\module;
 
@@ -20,19 +23,27 @@ use rpf\system\module;
 class extension extends module
 {
     /**
-     * @return domainExport
+     * @return csvExportDomain
      */
     public function getDomainExport()
     {
-        return $this->getModule(domainExport::class);
+        return $this->getModule(csvExportDomain::class);
     }
 
     /**
-     * @return mysqlExport
+     * @return csvExportMysql
      */
     public function getMysqlExport()
     {
-        return $this->getModule(mysqlExport::class);
+        return $this->getModule(csvExportMysql::class);
+    }
+
+    /**
+     * @return csvExportQuota
+     */
+    public function getQuotaExport()
+    {
+        return $this->getModule(csvExportQuota::class);
     }
 
     /**
@@ -57,6 +68,14 @@ class extension extends module
     public function getMailExport()
     {
         return $this->getModule(mailExport::class);
+    }
+
+    /**
+     * @return csvExportMail4MailSaveEntry
+     */
+    public function getMailExport4MailSaveEntry()
+    { 
+        return $this->getModule(csvExportMail4MailSaveEntry::class);
     }
 
     /**

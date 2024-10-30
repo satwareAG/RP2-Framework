@@ -19,17 +19,26 @@ use rpf\api\module\bbCustomer_validateAddress;
 use rpf\api\module\bbCustomer_validateEntry;
 use rpf\api\module\bbCustomer_validatePayinfo;
 use rpf\api\module\bbCustomer_getFreeOrdNr;
+use rpf\api\module\bbFtp_readEntry;
 use rpf\api\module\bbMysql_readEntry;
 use rpf\api\module\bbQuota_readEntry;
 use rpf\api\module\bbOrder_readDisposition;
 use rpf\api\module\bbOrder_readEntry;
 use rpf\api\module\bbOrder_readAccountAddress;
 use rpf\api\module\bbOrder_readAccountEntry;
+use rpf\api\module\bbRpc_auth;
+use rpf\api\module\bbRpc_call;
+use rpf\api\module\bbRpc_getMessages;
+use rpf\api\module\bbRpc_getSid;
+use rpf\api\module\bbRpc_logout;
+use rpf\api\module\bbRpc_setUrl;
+use rpf\api\module\bfSession_authToken;
 use rpf\api\module\customer;
 use rpf\api\module\email;
 use rpf\api\module\order;
 use rpf\api\module\placeholder;
 use rpf\api\module\user;
+use rpf\system\module;
 use rpf\system\module\log;
 
 /**
@@ -41,14 +50,60 @@ use rpf\system\module\log;
  * @link https://xing-ad.1601.com
  * @link https://www.1601.com
  */
-class api extends apiModule
+class api extends module
 {
     /**
-     * @return user
+     * @return bbRpc_call
      */
-    public function getUser()
+    public function getRpcCall()
     {
-        return $this->getModule(user::class);
+        return $this->getModule(bbRpc_call::class);
+    }
+
+    /**
+     * @return bbRpc_auth
+     */
+    public function getRpcAuth()
+    {
+        return $this->getModule(bbRpc_auth::class);
+    }
+
+    /**
+     * @return bbRpc_setUrl
+     */
+    public function getRpcSetUrl()
+    {
+        return $this->getModule(bbRpc_setUrl::class);
+    }
+
+    /**
+     * @return bbRpc_getMessages
+     */
+    public function getRpcMessages()
+    {
+        return $this->getModule(bbRpc_getMessages::class);
+    }
+
+    /**
+     * @return bbRpc_logout
+     */
+    public function getRpcLogout()
+    {
+        return $this->getModule(bbRpc_logout::class);
+    }
+
+    /**
+     * @return bbRpc_getSid
+     */
+    public function getRpcSid()
+    {
+        return $this->getModule(bbRpc_getSid::class);
+    }
+
+    
+    public function getSessionAuthToken()
+    {
+        return $this->getModule(bfSession_authToken::class);
     }
 
     /**
@@ -121,6 +176,14 @@ class api extends apiModule
     public function getEmailReadAccount()
     {
         return $this->getModule(bbEmail_readAccount::class);
+    }
+
+    /**
+     * @return bbFtp_readEntry
+     */
+    public function getFtpReadEntry()
+    {
+        return $this->getModule(bbFtp_readEntry::class);
     }
 
     /**
@@ -280,7 +343,5 @@ class api extends apiModule
         log::debug("Usage of deprecated object 'order'", __METHOD__);
         return $this->getModule(order::class);
     }
-
-
 }
 

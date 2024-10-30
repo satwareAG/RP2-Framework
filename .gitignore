@@ -1,2 +1,5 @@
 bb.rpc.cookie
 *.log
+.htaccess
+*.config.php
+!*default*

@@ -1,6 +1,8 @@
-<?php namespace rpf\extension;
+<?php
 
-require_once __DIR__ . '/../../extensionModule.php';
+namespace rpf\extension\module;
+use rpf\extension\extensionModule;
+
 
 /**
  * Class invoiceTextExport
@@ -18,8 +20,6 @@ require_once __DIR__ . '/../../extensionModule.php';
  * @link https://www.1601.com
  *
  * @TODO Use bbOrder::readDisposition instead of readEntry to get so_type and clean prices #5401975
- *
- * @package system\extension
  */
 class invoiceTextExport extends extensionModule
 {
@@ -27,11 +27,6 @@ class invoiceTextExport extends extensionModule
      * @var array format-pattern
      */
     private static $format = ['zeroString' => 'Inklusive', 'discountPattern' => '$priceDefault // Abzgl. $discount Rabatt'];
-
-    public function __construct(extension &$system)
-    {
-        parent::__construct($system);
-    }
 
     /**
      * Set format-pattern
@@ -52,7 +47,10 @@ class invoiceTextExport extends extensionModule
      */
     public function getAllOrders()
     {
-        $result = $this->system->orders->loadAll(['accounting' => 1])->getData(); //
+        //$result = $this->getApi()->getOrder()->loadAll(['accounting' => 1])->getData();
+        $result = $this->getApi()->getOrder()->loadAll(['accounting' => 1])->getData();
+        //$result = $this->getApi()->getOrderReadEntry()->addAccountEntries();
+
         foreach ($result as $row)
         {
             $priceMonth = 0;
@@ -81,7 +79,7 @@ class invoiceTextExport extends extensionModule
      */
     public function getAddress($ordNr)
     {
-        $address = $this->system->orders->load($ordNr)->getData()[$ordNr]['customer']['adress']['inv'];
+        $address = $this->getApi()->getOrder()->load($ordNr)->getData()[$ordNr]['customer']['adress']['inv'];
         $return['invoiceAddressBlock'] = !empty($address['company']) ?  $address['company']."\n" : '';
         $return['invoiceAddressBlock'] .= "{$address['first_name']} {$address['last_name']}\n";
         $return['invoiceAddressBlock'] .= !empty($address['adress_1']) ?  $address['adress_1']."\n" : '';
@@ -101,7 +99,7 @@ class invoiceTextExport extends extensionModule
      */
     public function getTariff($ordNr)
     {
-        $dispos = $this->system->orders->load($ordNr)->getData()[$ordNr]['dispositions'];
+        $dispos = $this->getApi()->getOrder()->load($ordNr)->getData()[$ordNr]['dispositions'];
         foreach ($dispos as $row)
         {
             if ($row['product']['norm'] == 'tariff')
@@ -124,7 +122,7 @@ class invoiceTextExport extends extensionModule
      */
     public function getDomains($ordNr)
     {
-        $dispos = $this->system->orders->load($ordNr)->getData()[$ordNr]['dispositions'];
+        $dispos = $this->getApi()->getOrder()->load($ordNr)->getData()[$ordNr]['dispositions'];
         $sumPrice = 0;
         $sumPriceDefault = 0;
         $return['item'] = array();
@@ -182,7 +180,7 @@ class invoiceTextExport extends extensionModule
      */
     public function getAddOns($ordNr)
     {
-        $dispos = $this->system->orders->load($ordNr)->getData()[$ordNr]['dispositions'];
+        $dispos = $this->getApi()->getOrder()->load($ordNr)->getData()[$ordNr]['dispositions'];
         $sumPrice = 0;
         $sumPriceDefault = 0;
         $return['item'] = array();
@@ -219,7 +217,8 @@ class invoiceTextExport extends extensionModule
      */
     public function getCertificates($ordNr)
     {
-        $disposition = $this->system->orders->loadDisposition($ordNr)->getDisposition($ordNr);
+        $disposition = $this->getApi()->getOrder()->loadDisposition($ordNr)->getDisposition($ordNr);
+        $disposition = $this->getApi()->getOrder()->loadDisposition($ordNr)->getDisposition($ordNr);
 
 
         $sumPrice = 0;
@@ -276,7 +275,7 @@ class invoiceTextExport extends extensionModule
      */
     public function getExchangeAccounts($ordNr)
     {
-        $dispos = $this->system->orders->load($ordNr)->getData()[$ordNr]['dispositions'];
+        $dispos = $this->getApi()->getOrder()->load($ordNr)->getData()[$ordNr]['dispositions'];
 
         $sumPrice = 0;
         $sumPriceDefault = 0;
@@ -363,5 +362,4 @@ class invoiceTextExport extends extensionModule
             return "$priceDefault | Abzgl. $discount Rabatt$suffix";
         }
     }
-
 }
